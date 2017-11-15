@@ -47,7 +47,7 @@ paths:
             $ref: '#/definitions/PollData'
       responses:
         200:
-          description: pet response
+          description: response
           schema:
             $ref: '#/definitions/Job1'
         default:
@@ -85,6 +85,7 @@ definitions:
   Job1:
     required:
       - id
+      - payload
     properties:
       id:
         type: string
