@@ -20,6 +20,22 @@ consumes:
 produces:
   - application/json
 paths:
+  /token:
+    get:
+      description: get auth token
+      parameters:
+        - name: scope
+          in: query
+          description: scope
+          required: false
+          type: string
+      responses:
+        200:
+          description: token
+          schema:
+            properties:
+              token:
+                type: string
   /heartbeat:
     post:
       description: liveness post
