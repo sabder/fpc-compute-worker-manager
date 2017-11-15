@@ -20,17 +20,31 @@ consumes:
 produces:
   - application/json
 paths:
+  /acknowledge:
+    post:
+      description: acknowledge task received
+      parameters:
+        - name: AckData
+          in: body
+          description: acknowledge receipt
+          required: true
+          schema:
+            $ref: '#/definitions/AckData'
+      responses:
+        200:
+          description: acknowledged
+            
   /poll:
     post:
       description: Returns a job specifc to the service type
       operationId: pollForJob
       parameters:
-        - name: service
+        - name: pollData
           in: body
           description: name of service to pull the jobs for
           required: true
           schema:
-            $ref: '#/definitions/Service'
+            $ref: '#/definitions/PollData'
       responses:
         200:
           description: pet response
@@ -41,6 +55,25 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 definitions:
+  AckData:
+    required:
+      - name
+    properties:
+      jobID:
+        type: string
+      workerID:
+        type: string
+      
+  PollData:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: "servicename"
+      workerId:
+        type: string
+        example: "worker1"
   Service:
     required:
       - name
