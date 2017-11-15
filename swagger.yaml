@@ -98,10 +98,18 @@ paths:
             $ref: '#/definitions/Error'
 definitions:
   Conclusion:
+    required:
+      - jobID
+      - workerID
+      - result
     properties:
       result:
         type: string
         enum: [SUCCEDED, FAILED, CANCELED]
+      jobID:
+        type: string
+      workerID:
+        type: string
   HeartbeatResponse:
     properties:
       canceled:
