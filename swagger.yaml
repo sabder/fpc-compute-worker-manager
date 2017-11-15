@@ -57,7 +57,8 @@ paths:
 definitions:
   AckData:
     required:
-      - name
+      - jobID
+      - workerID
     properties:
       jobID:
         type: string
