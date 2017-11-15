@@ -67,12 +67,12 @@ definitions:
       
   PollData:
     required:
-      - name
+      - service
+      - workerID
     properties:
-      name:
-        type: string
-        example: "servicename"
-      workerId:
+      service:
+        $ref: '#/definitions/Service'
+      workerID:
         type: string
         example: "worker1"
   Service:
@@ -91,6 +91,8 @@ definitions:
         type: string
       payload:
         type: object
+      service:
+        $ref: '#/definitions/Service'
   Job:
     required:
       - id
