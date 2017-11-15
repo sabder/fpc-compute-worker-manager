@@ -1,0 +1,78 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: "FPC Compute Worker"
+  description: Rest API for workers to pull jobs and report progress, liveness and completion
+  termsOfService: http://www.autodesk.com
+  contact:
+    name: Swagger API Team
+    email: fpc-compute@autodesk.com
+    url: http://www.autodesk.com
+  license:
+    name: Autodesk
+    url: http://www.autodesk.com
+host: fpccomputeworker.swagger.io
+basePath: /api/v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /poll:
+    post:
+      description: Returns a job specifc to the service type
+      operationId: pollForJob
+      parameters:
+        - name: service
+          in: body
+          description: name of service to pull the jobs for
+          required: true
+          schema:
+            $ref: '#/definitions/Service'
+      responses:
+        200:
+          description: pet response
+          schema:
+            $ref: '#/definitions/Job1'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Service:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: "sample-service:1.0.0"
+  Job1:
+    required:
+      - id
+    properties:
+      id:
+        type: string
+      payload:
+        type: object
+  Job:
+    required:
+      - id
+      - payload
+    properties:
+      id:
+        type: string
+        example : R8TEDg7tRoaUJ_ZfEI8ziDIyTGFVUlFQSXZSdmhlNmdLekhsV3IxZGUyV0hHeUFFVEtsR0ZDd2RnQ2UyTT0
+      payload:
+        type: string
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
