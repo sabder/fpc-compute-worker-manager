@@ -1,2 +1,2 @@
-# fpc-compute-worker-manager
-Compute worker manager API
+# Swagger JSON
+This is a swagger JSON built by the [swagger-codegen](https://github.com/swagger-api/swagger-codegen) project.

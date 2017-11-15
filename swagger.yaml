@@ -1,184 +1,193 @@
+---
 swagger: "2.0"
 info:
-  version: 1.0.0
+  description: "Rest API for workers to pull jobs and report progress, liveness and\
+    \ completion"
+  version: "1.0.0"
   title: "FPC Compute Worker"
-  description: Rest API for workers to pull jobs and report progress, liveness and completion
-  termsOfService: http://www.autodesk.com
+  termsOfService: "http://www.autodesk.com"
   contact:
-    name: Swagger API Team
-    email: fpc-compute@autodesk.com
-    url: http://www.autodesk.com
+    name: "Swagger API Team"
+    url: "http://www.autodesk.com"
+    email: "fpc-compute@autodesk.com"
   license:
-    name: Autodesk
-    url: http://www.autodesk.com
-host: fpccomputeworker.swagger.io
-basePath: /api/v1
+    name: "Autodesk"
+    url: "http://www.autodesk.com"
+host: "virtserver.swaggerhub.com"
+basePath: "/fpc-compute/worker/1.0.0"
 schemes:
-  - http
+- "https"
+- "http"
 consumes:
-  - application/json
+- "application/json"
 produces:
-  - application/json
+- "application/json"
 paths:
   /complete:
     post:
-      description: conclude job
+      description: "conclude job"
       parameters:
-        - name: data
-          in: body
-          schema:
-            $ref: '#/definitions/Conclusion'
+      - in: "body"
+        name: "data"
+        required: false
+        schema:
+          $ref: "#/definitions/Conclusion"
       responses:
         200:
-          description: response
+          description: "response"
           schema:
-            $ref: '#/definitions/HeartbeatResponse'
+            $ref: "#/definitions/HeartbeatResponse"
   /token:
     get:
-      description: get auth token
+      description: "get auth token"
       parameters:
-        - name: scope
-          in: query
-          description: scope
-          required: false
-          type: string
+      - name: "scope"
+        in: "query"
+        description: "scope"
+        required: false
+        type: "string"
       responses:
         200:
-          description: token
+          description: "token"
           schema:
-            properties:
-              token:
-                type: string
+            $ref: "#/definitions/inline_response_200"
   /heartbeat:
     post:
-      description: liveness post
+      description: "liveness post"
       parameters:
-        - name: data
-          in: body
-          schema:
-            $ref: '#/definitions/Heartbeat'
+      - in: "body"
+        name: "data"
+        required: false
+        schema:
+          $ref: "#/definitions/Heartbeat"
       responses:
         200:
-          description: response
+          description: "response"
           schema:
-            $ref: '#/definitions/HeartbeatResponse'
+            $ref: "#/definitions/HeartbeatResponse"
   /acknowledge:
     post:
-      description: acknowledge task received
+      description: "acknowledge task received"
       parameters:
-        - name: AckData
-          in: body
-          description: acknowledge receipt
-          required: true
-          schema:
-            $ref: '#/definitions/AckData'
+      - in: "body"
+        name: "AckData"
+        description: "acknowledge receipt"
+        required: true
+        schema:
+          $ref: "#/definitions/AckData"
       responses:
         200:
-          description: acknowledged
-            
+          description: "acknowledged"
   /poll:
     post:
-      description: Returns a job specifc to the service type
-      operationId: pollForJob
+      description: "Returns a job specifc to the service type"
+      operationId: "pollForJob"
       parameters:
-        - name: pollData
-          in: body
-          description: name of service to pull the jobs for
-          required: true
-          schema:
-            $ref: '#/definitions/PollData'
+      - in: "body"
+        name: "pollData"
+        description: "name of service to pull the jobs for"
+        required: true
+        schema:
+          $ref: "#/definitions/PollData"
       responses:
         200:
-          description: response
+          description: "response"
           schema:
-            $ref: '#/definitions/Job1'
+            $ref: "#/definitions/Job1"
         default:
-          description: unexpected error
+          description: "unexpected error"
           schema:
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/Error"
 definitions:
   Conclusion:
     required:
-      - jobID
-      - workerID
-      - result
+    - "jobID"
+    - "result"
+    - "workerID"
     properties:
       result:
-        type: string
-        enum: [SUCCEDED, FAILED, CANCELED]
+        type: "string"
+        enum:
+        - "SUCCEDED"
+        - "FAILED"
+        - "CANCELED"
       jobID:
-        type: string
+        type: "string"
       workerID:
-        type: string
+        type: "string"
   HeartbeatResponse:
     properties:
       canceled:
-        type: boolean
-        
+        type: "boolean"
   Heartbeat:
     required:
-      - progress
-      - details
+    - "details"
+    - "progress"
     properties:
       progress:
-        type: integer
+        type: "integer"
       details:
-        type: string
+        type: "string"
   AckData:
     required:
-      - jobID
-      - workerID
+    - "jobID"
+    - "workerID"
     properties:
       jobID:
-        type: string
+        type: "string"
       workerID:
-        type: string
-      
+        type: "string"
   PollData:
     required:
-      - service
-      - workerID
+    - "service"
+    - "workerID"
     properties:
       service:
-        $ref: '#/definitions/Service'
+        $ref: "#/definitions/Service"
       workerID:
-        type: string
+        type: "string"
         example: "worker1"
   Service:
     required:
-      - name
+    - "name"
     properties:
       name:
-        type: string
+        type: "string"
         example: "sample-service:1.0.0"
   Job1:
     required:
-      - id
-      - payload
+    - "id"
+    - "payload"
     properties:
       id:
-        type: string
+        type: "string"
       payload:
-        type: object
+        type: "object"
+        properties: {}
       service:
-        $ref: '#/definitions/Service'
+        $ref: "#/definitions/Service"
   Job:
     required:
-      - id
-      - payload
+    - "id"
+    - "payload"
     properties:
       id:
-        type: string
-        example : R8TEDg7tRoaUJ_ZfEI8ziDIyTGFVUlFQSXZSdmhlNmdLekhsV3IxZGUyV0hHeUFFVEtsR0ZDd2RnQ2UyTT0
+        type: "string"
+        example: "R8TEDg7tRoaUJ_ZfEI8ziDIyTGFVUlFQSXZSdmhlNmdLekhsV3IxZGUyV0hHeUFFVEtsR0ZDd2RnQ2UyTT0"
       payload:
-        type: object
+        type: "object"
+        properties: {}
   Error:
     required:
-      - code
-      - message
+    - "code"
+    - "message"
     properties:
       code:
-        type: integer
-        format: int32
+        type: "integer"
+        format: "int32"
       message:
-        type: string
+        type: "string"
+  inline_response_200:
+    properties:
+      token:
+        type: "string"
