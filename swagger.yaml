@@ -30,7 +30,9 @@ paths:
             $ref: '#/definitions/Heartbeat'
       responses:
         200:
-          description: success
+          description: response
+          schema:
+            $ref: '#/definitions/HeartbeatResponse'
   /acknowledge:
     post:
       description: acknowledge task received
@@ -66,6 +68,11 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 definitions:
+  HeartbeatResponse:
+    properties:
+      canceled:
+        type: boolean
+        
   Heartbeat:
     required:
       - progress
