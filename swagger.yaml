@@ -20,6 +20,19 @@ consumes:
 produces:
   - application/json
 paths:
+  /complete:
+    post:
+      description: conclude job
+      parameters:
+        - name: data
+          in: body
+          schema:
+            $ref: '#/definitions/Conclusion'
+      responses:
+        200:
+          description: response
+          schema:
+            $ref: '#/definitions/HeartbeatResponse'
   /token:
     get:
       description: get auth token
@@ -84,6 +97,11 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 definitions:
+  Conclusion:
+    properties:
+      result:
+        type: string
+        enum: [SUCCEDED, FAILED, CANCELED]
   HeartbeatResponse:
     properties:
       canceled:
