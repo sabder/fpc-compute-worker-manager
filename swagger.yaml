@@ -152,6 +152,7 @@ definitions:
       id:
         type: "string"
         example: "R8TEDg7tRoaUJ_ZfEI8ziDIyTGFVUlFQSXZSdmhlNmdLekhsV3IxZGUyV0hHeUFFVEtsR0ZDd2RnQ2UyTT0"
+        description: "Identifier for the job"
       payload:
         type: "object"
         properties: {}
