@@ -65,19 +65,6 @@ paths:
           description: "response"
           schema:
             $ref: "#/definitions/HeartbeatResponse"
-  /acknowledge:
-    post:
-      description: "acknowledge task received"
-      parameters:
-      - in: "body"
-        name: "AckData"
-        description: "acknowledge receipt"
-        required: true
-        schema:
-          $ref: "#/definitions/AckData"
-      responses:
-        200:
-          description: "acknowledged"
   /poll:
     post:
       description: "Returns a job specifc to the service type"
@@ -120,18 +107,6 @@ definitions:
       canceled:
         type: "boolean"
   Heartbeat:
-    required:
-    - "details"
-    - "progress"
-    properties:
-      progress:
-        type: "integer"
-      details:
-        type: "string"
-  AckData:
-    required:
-    - "jobID"
-    - "workerID"
     properties:
       jobID:
         type: "string"
