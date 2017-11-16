@@ -107,10 +107,13 @@ definitions:
       canceled:
         type: "boolean"
   Heartbeat:
+    required:
+    - "details"
+    - "progress"
     properties:
-      jobID:
-        type: "string"
-      workerID:
+      progress:
+        type: "integer"
+      details:
         type: "string"
   PollData:
     required:
