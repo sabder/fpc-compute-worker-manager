@@ -4,10 +4,10 @@ info:
   description: "Rest API for workers to pull jobs and report progress, liveness and\
     \ completion"
   version: "1.0.0"
-  title: "FPC Compute Worker"
+  title: "FPC Compute Worker API"
   termsOfService: "http://www.autodesk.com"
   contact:
-    name: "Swagger API Team"
+    name: "Forge platform and Components - Compute team"
     url: "http://www.autodesk.com"
     email: "fpc-compute@autodesk.com"
   license:
@@ -19,11 +19,45 @@ schemes:
 - "https"
 - "http"
 consumes:
-- "application/json"
+- "application/vnd.api+json"
 produces:
-- "application/json"
+- "application/vnd.api+json"
 paths:
-  /complete:
+  /jobs/poll:
+    post:
+      description: "Returns a job specifc to the service type\n"
+      operationId: "pollForJob"
+      parameters:
+      - in: "body"
+        name: "pollData"
+        description: "name of service to pull the jobs for"
+        required: true
+        schema:
+          $ref: "#/definitions/poll_for_job"
+      responses:
+        200:
+          description: "response"
+          schema:
+            $ref: "#/definitions/Job1"
+        default:
+          description: "unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+  /jobs/progress:
+    post:
+      description: "report job progress"
+      parameters:
+      - in: "body"
+        name: "data"
+        required: false
+        schema:
+          $ref: "#/definitions/Conclusion"
+      responses:
+        200:
+          description: "response"
+          schema:
+            $ref: "#/definitions/HeartbeatResponse"
+  /jobs/complete:
     post:
       description: "conclude job"
       parameters:
@@ -65,27 +99,17 @@ paths:
           description: "response"
           schema:
             $ref: "#/definitions/HeartbeatResponse"
-  /poll:
-    post:
-      description: "Returns a job specifc to the service type"
-      operationId: "pollForJob"
-      parameters:
-      - in: "body"
-        name: "pollData"
-        description: "name of service to pull the jobs for"
-        required: true
-        schema:
-          $ref: "#/definitions/PollData"
-      responses:
-        200:
-          description: "response"
-          schema:
-            $ref: "#/definitions/Job1"
-        default:
-          description: "unexpected error"
-          schema:
-            $ref: "#/definitions/Error"
 definitions:
+  poll_for_job:
+    required:
+    - "service"
+    - "workerID"
+    properties:
+      service:
+        $ref: "#/definitions/Service"
+      workerID:
+        type: "string"
+        example: "worker1"
   Conclusion:
     required:
     - "jobID"
@@ -115,16 +139,6 @@ definitions:
         type: "integer"
       details:
         type: "string"
-  PollData:
-    required:
-    - "service"
-    - "workerID"
-    properties:
-      service:
-        $ref: "#/definitions/Service"
-      workerID:
-        type: "string"
-        example: "worker1"
   Service:
     required:
     - "name"
@@ -170,3 +184,11 @@ definitions:
     properties:
       token:
         type: "string"
+parameters:
+  body_poll_for_job:
+    in: "body"
+    name: "body"
+    description: "describes the job type to fetch job from"
+    required: true
+    schema:
+      $ref: "#/definitions/poll_for_job"
