@@ -145,6 +145,9 @@ definitions:
       service_name:
         type: "string"
         example: "sample-service:1.0.0"
+      endpoint_name:
+        type: "string"
+        example: "costing"
   Job:
     allOf:
     - $ref: "#/definitions/Service"
