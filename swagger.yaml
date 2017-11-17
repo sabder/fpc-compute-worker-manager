@@ -145,21 +145,24 @@ definitions:
       service_name:
         type: "string"
         example: "sample-service:1.0.0"
-  Payload:
-    type: "object"
-    example:
-      project_url: "www.autodesk.com"
   Job:
     allOf:
     - $ref: "#/definitions/Service"
-    - $ref: "#/definitions/Payload"
     - required:
       - "id"
+      - "payload"
       properties:
         id:
           type: "string"
           example: "R8TEDg7tRoaUJ_ZfEI8ziDIyTGFVUlFQSXZSdmhlNmdLekhsV3IxZGUyV0hHeUFFVEtsR0ZDd2RnQ2UyTT0"
           description: "Identifier for the job"
+        payload:
+          type: "object"
+          example:
+            project:
+              name: "project1"
+              url: "http://www.autodesk.com"
+          properties: {}
   Error:
     required:
     - "code"
