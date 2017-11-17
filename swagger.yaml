@@ -38,7 +38,7 @@ paths:
         200:
           description: "response"
           schema:
-            $ref: "#/definitions/Job1"
+            $ref: "#/definitions/Job"
         default:
           description: "unexpected error"
           schema:
@@ -101,15 +101,14 @@ paths:
             $ref: "#/definitions/HeartbeatResponse"
 definitions:
   poll_for_job:
-    required:
-    - "service"
-    - "workerID"
-    properties:
-      service:
-        $ref: "#/definitions/Service"
-      workerID:
-        type: "string"
-        example: "worker1"
+    allOf:
+    - $ref: "#/definitions/Service"
+    - required:
+      - "workerID"
+      properties:
+        workerID:
+          type: "string"
+          example: "worker1"
   Conclusion:
     required:
     - "jobID"
@@ -141,35 +140,26 @@ definitions:
         type: "string"
   Service:
     required:
-    - "name"
+    - "service_name"
     properties:
-      name:
+      service_name:
         type: "string"
         example: "sample-service:1.0.0"
-  Job1:
-    required:
-    - "id"
-    - "payload"
-    properties:
-      id:
-        type: "string"
-      payload:
-        type: "object"
-        properties: {}
-      service:
-        $ref: "#/definitions/Service"
+  Payload:
+    type: "object"
+    example:
+      project_url: "www.autodesk.com"
   Job:
-    required:
-    - "id"
-    - "payload"
-    properties:
-      id:
-        type: "string"
-        example: "R8TEDg7tRoaUJ_ZfEI8ziDIyTGFVUlFQSXZSdmhlNmdLekhsV3IxZGUyV0hHeUFFVEtsR0ZDd2RnQ2UyTT0"
-        description: "Identifier for the job"
-      payload:
-        type: "object"
-        properties: {}
+    allOf:
+    - $ref: "#/definitions/Service"
+    - $ref: "#/definitions/Payload"
+    - required:
+      - "id"
+      properties:
+        id:
+          type: "string"
+          example: "R8TEDg7tRoaUJ_ZfEI8ziDIyTGFVUlFQSXZSdmhlNmdLekhsV3IxZGUyV0hHeUFFVEtsR0ZDd2RnQ2UyTT0"
+          description: "Identifier for the job"
   Error:
     required:
     - "code"
