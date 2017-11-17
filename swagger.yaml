@@ -43,20 +43,6 @@ paths:
           description: "unexpected error"
           schema:
             $ref: "#/definitions/Error"
-  /jobs/progress:
-    post:
-      description: "report job progress"
-      parameters:
-      - in: "body"
-        name: "data"
-        required: false
-        schema:
-          $ref: "#/definitions/Conclusion"
-      responses:
-        200:
-          description: "response"
-          schema:
-            $ref: "#/definitions/HeartbeatResponse"
   /jobs/complete:
     post:
       description: "conclude job"
